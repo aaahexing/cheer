@@ -6,8 +6,16 @@ using namespace std;
 struct point{
 	int y;
 	int xl, xr;
-	point(int y, int xl, int xr){this->y = y; this->xl = xl; this->xr = xr;}
-	point(void){xl = xr = y = 0;}
+	point(int y, int xl, int xr)
+	{
+		this->y = y; 
+		this->xl = xl; 
+		this->xr = xr;
+	}
+	point(void)
+	{
+		xl = xr = y = 0;
+	}
 };
 
 struct point  *board, start, end;
@@ -16,17 +24,17 @@ struct point  *board, start, end;
 if can, return true; 
 otherwise, return false
 time complexity: O(1)  ***/
-bool canJump(struct point node1, struct point node2)
+bool canJump(const struct point & node1, const struct point & node2)
 {
 	if(node2.y == node1.y + 1 && !(node1.xl >= node2.xr || node1.xr <= node2.xl))
 		return true;
 	return false;
 }
 
-//violent search; BFS(breadth-first search); test every availble node in the next depth and push in to stack; repeat
-//space complexity: O(n)??? n nodes in the stack at most?
-//time complexity£º??? still can't understand
-bool violentSearch(struct point * board, int n, struct point start, struct point end)
+//violent search; DFS(depth-first search); test every availble node in the next depth and push in to stack; repeat
+//space complexity: O(n) stack
+//time complexityï¼šO(n!) full array...
+bool violentSearch(struct point * board, int n, const struct point & start, const struct point & end)
 {
 	struct point pt;
 	stack<struct point> sta;
@@ -37,7 +45,7 @@ bool violentSearch(struct point * board, int n, struct point start, struct point
 	if(n == 0)
 		return canJump(start, end);
 
-	while(!sta.empty())  //for each node in the stack, O(n) time complexity will cost, but, how many nodes will be push in the stack? one node may be pushed in for many times? what is the total time complexity?
+	while(!sta.empty())  //for each node in the stack, O(n) time complexity will cost, the node in the stack is the n nodes full array at most...
 	{
 		pt = sta.top();
 		sta.pop();
@@ -56,22 +64,24 @@ bool violentSearch(struct point * board, int n, struct point start, struct point
 }
 
 //BFS, but mideum result is recorded and used to redece some repeat operation
-//time complexity: ²»ÊÇO(n^2)°¡£¬ÒòÎª£¬¶ÔÓÚÄÜÌøµ½ÉÏÒ»²ãµÄÄ¾°å£¬ËüÓĞ¿ÉÄÜ¶à´ÎµÄÈëÕ»£¬´Ó¶ø£¬µ¼ÖÂÈëÕ»µÄÄ¾°å¸öÊı£¬²¢²»ÊÇn£¬ÕûÌåÊ±¼ä¸´ÔÓ¶ÈÒ²²»ÊÇO(n^2)
-//space complexity: O(n)¸úÉÏÒ»¸öÒ»Ñù
-//ÓëÉÏÒ»·½·¨¶Ô±ÈµÄ»°£¬ÕûÌåÊ±¼ä¸´ÔÓ¶ÈÓĞÒ»¶¨µÄ½ÚÊ¡£¬µ«¿Õ¼ä¸´ÔÓ¶È»¹ÊÇÏàÍ¬ÊıÁ¿¼¶µÄ£¬µ«ÎŞ·¨½ÚÊ¡µ½O(n^2).....
+//time complexity: ä¸æ˜¯O(n^2)å•Šï¼Œå› ä¸ºï¼Œå¯¹äºèƒ½è·³åˆ°ä¸Šä¸€å±‚çš„æœ¨æ¿ï¼Œå®ƒæœ‰å¯èƒ½å¤šæ¬¡çš„å…¥æ ˆï¼Œä»è€Œï¼Œå¯¼è‡´å…¥æ ˆçš„æœ¨æ¿ä¸ªæ•°ï¼Œå¹¶ä¸æ˜¯nï¼Œæ•´ä½“æ—¶é—´å¤æ‚åº¦ä¹Ÿä¸æ˜¯O(n^2)
+//space complexity: O(n)è·Ÿä¸Šä¸€ä¸ªä¸€æ ·
+//ä¸ä¸Šä¸€æ–¹æ³•å¯¹æ¯”çš„è¯ï¼Œæ•´ä½“æ—¶é—´å¤æ‚åº¦æœ‰ä¸€å®šçš„èŠ‚çœï¼Œä½†ç©ºé—´å¤æ‚åº¦è¿˜æ˜¯ç›¸åŒæ•°é‡çº§çš„ï¼Œä½†æ— æ³•èŠ‚çœåˆ°O(n^2).....
 bool mediumSearch(struct point * board, int n, struct point start, struct point end)
 {
 	struct point pt;
 	int index;
 	stack<pair<struct point, int> > sta;
-	bool * avail = (bool *)malloc(sizeof(bool) * (n+1));     //make whether board[i] can jump to the deeper depth, start from the start point, thus, n+1 space is needed
-	memset(avail, true, sizeof(bool) * (n+1));
-	sta.push(make_pair(start, 0));
+	bool * avail;
 	
 	if(n < 0)
 		return false;
 	if(n == 0)
 		return canJump(start, end);
+		
+	avail = (bool *)malloc(sizeof(bool) * (n+1));     //make whether board[i] can jump to the deeper depth, start from the start point, thus, n+1 space is needed
+	memset(avail, true, sizeof(bool) * (n+1));
+	sta.push(make_pair(start, 0));
 
 	while(!sta.empty())
 	{
@@ -107,12 +117,11 @@ bool cmp(struct point node1, struct point node2)
 		return 1;
 }
 
-//Õâ¸ö¸´ÔÓ¶ÈÖ»ÓĞO(n^2£©,ÒòÎª£¬×î¶àn¸öÊı½øĞĞforÑ­»·£¬¿Õ¼ä¸´ÔÓ¶È£¬O£¨n)
+//è¿™ä¸ªå¤æ‚åº¦åªæœ‰O(n^2ï¼‰,å› ä¸ºï¼Œæœ€å¤šnä¸ªæ•°è¿›è¡Œforå¾ªç¯ï¼Œç©ºé—´å¤æ‚åº¦ï¼ŒOï¼ˆn)
 bool fastSearch(struct point * board, int n, struct point start, struct point end)
 {
 	sort(board,board+n, cmp);
-	bool * avail = (bool *)malloc(sizeof(bool)*n);
-	memset(avail,false,sizeof(bool)*n);
+	bool * avail;
 	int lastY = end.y;
 	int pos;
 
@@ -126,6 +135,9 @@ bool fastSearch(struct point * board, int n, struct point start, struct point en
 		free(avail);
 		return canJump(start, end);
 	}
+	
+	avail = (bool *)malloc(sizeof(bool)*n);
+	memset(avail,false,sizeof(bool)*n);
 
 	for(pos = n-1; pos>=0; pos--)
 	{
@@ -144,8 +156,16 @@ bool fastSearch(struct point * board, int n, struct point start, struct point en
 		{
 			if(board[pos].y != lastY - 1)
 			{
-				lastY--;
-				break;
+				if(board[pos].y != lastY - 2)
+				{
+					free(avail);
+					return false;               // lastY - 1 coordinates doesn't exit, so return false 
+				}
+				else
+				{
+					lastY--;
+					break;
+				}
 			}
 			else
 			{
