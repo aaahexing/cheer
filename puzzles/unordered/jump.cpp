@@ -126,15 +126,9 @@ bool fastSearch(struct point * board, int n, struct point start, struct point en
 	int pos;
 
 	if(n < 0)
-	{
-		free(avail);
 		return false;
-	}
 	if(n == 0)
-	{
-		free(avail);
 		return canJump(start, end);
-	}
 	
 	avail = (bool *)malloc(sizeof(bool)*n);
 	memset(avail,false,sizeof(bool)*n);
@@ -187,6 +181,50 @@ bool fastSearch(struct point * board, int n, struct point start, struct point en
 
 	free(avail);
 	return false;
+}
+
+// key recursive function in Function recursiveSearch
+// judge whether the frog can jump from board[pos-1] to end, if can, return true
+// scope of pos is 0 to n, since we count from the start point to board[n-1] 
+bool recursiveSearchKey(struct point * board, int n, int pos, struct point start, struct point end)
+{
+	if(canJump(start, end))
+		return true;
+		
+	bool res = false;
+	for(int i=0; i<n; i++)
+	{
+		if(canJump(start, board[i]) && avail[i+1])
+		{
+			res = recursiveSearchKey(board, n, i+1, board[i], end); // update the start point
+			if(res)
+				return true;
+		}
+	}
+	
+	if(!res)
+		avail[pos] = false;
+	
+	return false;
+}
+
+//to do frog jumping puzzle recursively
+//if the frog can jump from start to end, return true
+//time complexity: same as the mediumSearch
+//space complexity: O(n)
+bool recursiveSearch(struct point * board, int n, struct point start, struct point end)
+{
+	if(n < 0)
+		return false;
+	if(n == 0)
+		return canJump(start, end);
+		
+	bool * avail = (bool *)malloc(sizeof(bool) * (n+1));
+	memset(avail, true, sizeof(bool) * (n+1));
+	bool res = recursiveSearchKey(board, n, 0, start, end);
+	
+	free(avail);
+	return res;
 }
 
 int main() {
