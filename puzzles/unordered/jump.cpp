@@ -227,6 +227,45 @@ bool recursiveSearch(struct point * board, int n, struct point start, struct poi
 	return res;
 }
 
+// Complete implementation.
+enum StatusEnum {
+    UNKNOWN,
+    CAN_BE_REACHED,
+    CANNOT_BE_REACHED
+};
+
+// Keywords: memorize search(similar to DP)
+// "记忆化搜索" in Chinese.
+StatusEnum dfs(int board_index, const vector<Point>& board, const Point& end, vector<StatusEnum>& status) {
+    if (status[board_index] != UNKNOWN) {
+        return status[board_index];
+    }
+    const int n = board.size();
+    status[board_index] = CANNOT_BE_REACHED;
+    if (canJump(board[board_index], end)) {
+        status[board_index] = CAN_BE_REACHED;
+    }
+    for (int i = 0; i < n && status[board_index] != CAN_BE_REACHED; ++i) {
+        if (status[]canJump(board[board_index], board[i])) {
+            if (dfs(i, board, end, status) == CAN_BE_REACHED) {
+                status[board_index] = CAN_BE_REACHED;
+            }
+        }
+    }
+    return status[board_index];
+}
+
+bool CanReach(const Point& start, const Point& end, vector<Point> board) {
+    // No sort needed.
+    board.push_back(start);
+    const int n = board.size();
+    vector<StatusEnum> status(n);
+    for (int i = 0; i < n; ++i) {
+        status[i] = UNKNOWN;
+    }
+    return dfs(0, board, end, status) == CAN_BE_REACHED;
+}
+
 int main() {
     return 0;
 }
