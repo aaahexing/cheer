@@ -31,6 +31,8 @@ Classification symRecog(char c)
 
 //input: the postfix expression tree
 //output: pointer to the new tree
+//time complexity: O(N)
+//space complexity: O(N)
 //Node: the input postfix tree is correct to simplify this program; the operand is from '0' to '9'; only support operator '+', '-', '*', '/'
 Node * expressionTreeConstruction(string s)
 {
