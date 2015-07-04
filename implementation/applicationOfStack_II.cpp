@@ -49,6 +49,8 @@ string infixToPostfixConversion(string s)
           s.push_back(temp);
           sta.pop();
         }
+		else
+			break;
       }
       sta.push(s[i]);
     }
