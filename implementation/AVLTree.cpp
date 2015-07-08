@@ -24,6 +24,19 @@ private:
 	AVLNode * root;
 	AVLTree(AVLNode * r = NULL): root(r)
 	{}
+	~AVLTree()
+	{
+		releaseSpace(root);
+	}
+	void releaseSpace(AVLNode * root)
+	{
+		if(root == NULL)
+			return;
+		releaseSpace(root->left);
+		releaseSpace(root->right);
+		delete root;
+		root = NULL;
+	}
 
 public:
 	AVLNode * findMin()
@@ -44,6 +57,7 @@ public:
 	}
 
 private:
+	//time complexity:O(logn)
 	AVLNode * findMin(AVLNode * root)
 	{
 		if(root == NULL)
@@ -52,6 +66,7 @@ private:
 			return root->left == NULL ? root : findMin(root->left);
 	}
 
+	//time complexity: O(logn)
 	AVLNode * findMax(AVLNode * root)
 	{
 		if(root == NULL)
@@ -60,11 +75,13 @@ private:
 			return root->right == NULL ? root : findMax(root->right);
 	}
 
+	//time complexity: O(1)
 	inline void updateHeight(AVLNode * root)
 	{
 		root->height = max(getHeight(root->left), getHeight(root->right)) + 1;
 	}
 
+	//time complexity: O(logn), since AVL tree is a balance tree and time consumption is the height of the tree
 	AVLNode * insert(AVLNode * root, int x)
 	{
 		if(root == NULL)
@@ -83,6 +100,7 @@ private:
 		return root;
 	}
 
+	//time complexity: > O(logn)
 	AVLNode * remove(AVLNode * root, int x)
 	{
 		if(root == NULL)
@@ -113,6 +131,7 @@ private:
 		return root;
 	}
 	
+	//time complexity: O(1)
 	AVLNode * balance(AVLNode * root)
 	{
 		if(root == NULL)
@@ -141,6 +160,7 @@ private:
 	//                   B   C         -->           D+  A
 	//                  / \                             / \
 	//                 D+  E                           E   C
+	//time complexity: O(1)
 	AVLNode * singleRotationL(AVLNode * root)
 	{
 		AVLNode * res = root->left;
@@ -157,6 +177,7 @@ private:
 	//                   B   C         -->           A   E+
 	//                      / \                     / \
 	//                     D   E+                  B   D
+	//time complexity: O(1)
 	AVLNode * singleRotationR(AVLNode * root)
 	{
 		AVLNode * res = root->right;
@@ -175,6 +196,7 @@ private:
 	//                D   E                             / \ / \
 	//                   / \                           D  F G  C
 	//                  F   G
+	//time complexity: O(1)
 	AVLNode * doubleRotationL(AVLNode * root)
 	{
 		root->left = singleRotationR(root->left);

@@ -1,0 +1,42 @@
+﻿In this file, we conclude chapter 4, including the basic ideas of BST, AVL, SPLAY and B-Tree. Besides, Sets and Maps STL will also be concluded.
+
+Basic definition
+·The length of a path consisted with nodes n1, n2, …， nk is the number of edges on the path, namely, k-1.
+·Depth of ni is the length of the unique path from the root to ni.
+·Height of ni is the length of the longest path from ni to a leaf.
+
+Binary Tree
+·A binary tree is a tree in which no node can have more than two children.
+·Expression Trees: the leaves of an expression tree are operands and the other nodes contain operators.
+·Binary Search Trees: the property that makes a binary tree into a binary search tree is that for every node X, in the tree, the values of all the items in its left subtree are smaller than the item in X, and the values of all the items in its right subtree are larger than the item in X. 
+
+AVL tree:
+·AVL tree is identical to a binary search tree, except that for every node in the tree, the height of the left and right subtrees can differ by at most 1. (height of an empty tree is defined to be -1) 
+·all operations can be performed in O(logN) time. I think insertion and deletion do the same..(O(logN))    // please point out if I am wrong…
+·Insertion and deletion: single rotation and double rotation. Please refer to the implementation of AVLTree.cpp to get the details.
+
+Splay Tree
+·Guarantee that any M consecutive tree operations starting from an empty tree take at most M(logN) time. → has an O(logN) amortized cost per operation.
+·Basic idea of the splay tree is that after a node is accessed, it is pushed to the root by a series of AVL tree rotations.
+·Splaying: refer to the code implementation.
+·However, I am a little confused with the implementation, so I haven’t finished the implementation code of function deletion and splay…
+
+B-Tree
+·Motivation: guarantees only a few dis accesses. 
+·A B-tree of order M is an M-ary tree with the following properties:
+1. The data items are stored at leaves
+2. The nonleaf nodes store up to M-1 keys to guide the searching: key i represents the smallest key in subtree i+1
+3. The root is either a leaf or has between two and M children
+4. All nonleaf nodes (except the root) have between ⌈M/2⌉ and M children
+5. All leaves are at the same depth and have between ⌈L/2⌉ L data items
+·Didn’t read B-tree very carefully and I would go back to it…
+
+Sets and Maps STL
+·Guarantee logarithmic cost for basic operations such as insertion, deletion and searching.
+
+Tree traversals
+·preorder traversal
+·inorder traversal
+·postorder traversal
+·level-order traversal
+

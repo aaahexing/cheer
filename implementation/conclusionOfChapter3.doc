@@ -1,8 +1,8 @@
-In this file, we conclude the chapter 3, including the basic ideas of the three fundermental data structures: list, stack and queue and its mostly used functions.
+﻿In this file, we conclude chapter 3, including the basic ideas of the three fundamental data structures: list, stack and queue and its mostly used functions.
 
 List:
-·Two implementation of List: array and double link.
-·Array implementation (Vector): insert and delete are expensive, in worst case, takes O(n) time [BAD]; findKth operation takes constant time[GOOD];
+·Two implementations of List: array and double link.
+·Array implementation (Vector): insertion and deletion are expensive, in the worst case, takes O(n) time [BAD]; findKth operation takes constant time[GOOD];
 ·Double link implementation: insert and delete takes constant time [GOOD]; findKth operation is expensive, in worst case, takes O(n) time [BAD];
 ·Functions: size(); clear(); empty(); push_back(); pop_back(); back(); front(); [For both implementations]
             push_front(); pop_front(); [For double link implementation only]
