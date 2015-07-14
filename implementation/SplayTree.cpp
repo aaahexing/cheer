@@ -99,7 +99,7 @@ private:
 			return NULL;
 		else
 		{
-			if(x < root->element)
+			if(x < root->element)          
 				root->left = remove(root->left, x);
 			else if(x > root->element)
 				root->right = remove(root->right, x);
@@ -142,8 +142,67 @@ private:
 	{
 		while(root->element != x)
 		{
-
+			if(x < root->element)
+			{
+				if(x == root->left->element)
+				{  
+					//zig
+					root = singleRotationL(root);
+				}
+				else if(x < root->left->element)
+				{
+					//zig-zig
+					root = singleRotationL(root);
+					root = singleRotationL(root);
+				}
+				else
+				{
+					//zig-zag
+					root->left = singleRotationR(root->left);
+					root = singleRotationL(root);
+				}
+			}
+			else
+			{
+				if(x == root->right->element)
+				{
+					//zig
+					root = singleRotationR(root);
+				}
+				else if(x < root->right->element)
+				{
+					//zig-zag
+					root->right = singleRotationL(root->right);
+					root = singleRotationR(root);
+				}
+				else
+				{
+					//zig-zig
+					root = singleRotationR(root);
+					root = singleRotationR(root);
+				}
+			}
 		}
+
+		return root;
+	}
+
+	SplayNode * singleRotationL(SplayNode * root)
+	{
+		SplayNode * temp = root->left->right;
+		SplayNode * res = root->left;
+		root->left->right = root;
+		root->leftt = temp;
+		return res;
+	}
+
+	SplayNode * singleRotationR(SplayNode * root)
+	{
+		SplayNode * temp = root->right->left;
+		SplayNode * res = root->right;
+		root->right->left = root;
+		root->right = temp;
+		return res;
 	}
 }
 
