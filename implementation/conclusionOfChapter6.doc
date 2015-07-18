@@ -1,0 +1,51 @@
+﻿In this file, we conclude chapter 6, including the basic ideas of binary heap, d-heap, leftist heap, skew heap and binomial heap and their corresponding operations, time complexity, advantages and disadvantages. Besides, the STL of priority queue and its basic operation is also included.
+
+Binary heap (priority queue)
+·Heap is a binary tree that is completely filled, with the possible exception of the bottom level, which is filled from left to right. (a complete binary tree)
+·a complete tree is so regular and can be represented in an array and no links are necessary. 
+·for any element in array position i, the left child is in position 2i, the right child is in the cell after the left child 2i+1, and the parent is in position ⌊ i/2⌋. Usually, position 0 is reserved.
+·heap order property: for every node X, the key in the parent of X is smaller than the Key in X, with the exception of the root(which has no parent)
+·basic operation: insert (percolate up)(O(logN) worst case, O(1) average), deleteMin(percolate down), increaseKey(percolate down), decreaseKey(percolate up), remove(decreaseKey + deleteMin), buildHeap(O(N))
+
+d-Heap
+·exactly like a binary heap except that all nodes have d children
+·basic operations
+1. Insert:a d-heap is much shallower than a binary heap, which improves the running time of inserts to O(logdN)
+2. deleteMin: more expensive, because even though the tree is shallower, the minimum of d children must be found, which takes d-1 comparisons. This raises the time for this operation to O(dlogdN). Although an array can still be used, the multiplications and divisions to find children and parents are now by d, which, unless d is a power of 2, seriously increases the running time, because we can no longer implement division by a bit shift.
+
+Leftist heaps
+·To do merge(notice binary heaps and d-heaps do not support the merge operation)
+·null path length(npl) of any node X is the length of the shortest path from X to a node without two children. Thus, the npl of a node with zero or one child is 0, while npl(NULL) = -1.
+·NPL information must be maintained and updated.
+·leftist heap property: for every node X in the heap, the npl of the left child is at least as that of the right child. (extremely unbalanced tree)
+·operation: merge, insert, deleteMin
+
+Skew heap
+·To do merge
+·a skew heap is a self-adjusting version of a leftist heap. 
+·The relationship of skew heaps to leftist heaps is analogous to the relation between splay tree and AVL tree. 
+·no information is maintained about the null path length of any node. 
+·for any M consecutive operations, the total worst-case running time is O(MlogN), thus, skew heaps have O(logN) amortized cost per operation.
+
+Binomial Queues
+·Binomial queues support all three operations in O(logN) worst-case time per operation, but insertion take constant time on average.
+·Binomial queue is not a heap-ordered tree but rather a collection of heap-ordered trees, known as forest. Each of the heap-ordered trees is of constrained form known as a binomial tree. There is at most one binomial tree of every height.
+
+STL
+·#include <queue>
+·name priority_queue, a max heap is implemented by default
+·example
+1. priority_queue<int> maxPQ;
+2. priority_queue<int, vector<int>, greater<int> > minPQ; 
+·key functions: push(x), top(), pop(), empty()
+
+
+
+
+
+
+
+
+
+
+

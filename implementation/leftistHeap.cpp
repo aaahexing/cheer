@@ -67,6 +67,9 @@ private:
 	leftistNode * root;
 	
 	leftistNode * clone(leftistNode * r){
+		if(r == NULL)
+			return NULL;
+
 		return new leftistNode(r->val, clone(r->left), clone(r->right), r->npl);
 	}
 

@@ -66,6 +66,8 @@ private:
 	skewNode * root;
 	
 	skewNode * clone(skewNode * r){
+		if(r == NULL)
+			return NULL;
 		return new skewNode(r->val, clone(r->left), clone(r->right));
 	}
 
