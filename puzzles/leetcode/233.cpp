@@ -44,7 +44,3 @@ int main()
 	cout << countDigitOne(1410065408)<<endl;
 	return 0;
 }
-
-
-
-
