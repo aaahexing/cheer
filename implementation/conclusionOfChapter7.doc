@@ -1,0 +1,47 @@
+﻿In this file, we conclude chapter 7, including internal sort algorithm and external sort algorithms. Besides, the sort STL will also be introduced.
+
+Internal sort algorithm
+·Insertion Sort
+1. O(n^2) time complexity in worst-case and on average. O(1) space complexity.
+2. Appropriate for small amount of input.
+3. Stable sorting algorithm
+·Shell Sort
+1. O(n^2) time complexity in worst-case and less than O(n^2) time complexity on average with a proper increment sequence. O(1) space complexity.
+2. Appropriate for moderate amount of input.
+3. Stable sorting algorithm
+·Heap sort
+1. O(nlogn) time complexity in worst-case and on average. O(1) space complexity.
+2. Unstable sorting algorithm
+·Merge sort
+1. O(nlogn)time complexity in worst-case and on average. O(n) space complexity.
+2. Stable sorting algorithm
+3. Often used in JAVA library
+·Quick sort
+1. O(nlogn) time complexity on average and O(n^2) time complexity in worst-case. O(1) space complexity.
+2. Unstable sorting algorithm
+3. Tricky to code.
+4. Often used in C++ library
+·Bucket sort
+1. Can be sorted in linear time
+2. Radix sort and count radix sort.
+
+External sort algorithm
+·Two-way merge:the basic idea is the same as merge sort in merging process
+·K-way merge: heap is used to do merge.
+·Polyphase merge and replacement selection is still not familiar with. Need to be read more carefully. Let’s just move on. 
+
+STL
+·#include <algorithm>
+·void sort(Iterator begin, Iterator end);
+·void sort(Iterator begin, Iterator end, Comparator tmp);
+·Example: std::sort(v.begin(), v.end()); std::sort(v.begin(), v.end(), greater<int>);
+
+Q1: C++中sort一般用快排实现，而JAVA中sort一般用merge实现？与之前说的库的sort用merge实现有冲突。
+Q2：快排中，当n的数目比较小时（10左右），用插入排序比用快排快？为什么？快排递归多，导致实际运行时间长？
+Q3:shell排序的一般应用场景？
+Q4：外部排序的多相排序与替换排序并不理解
+Q5：看下countRadixSort()的代码，总觉得vector用的太烂，代码太丑。。。
+Q5：说说散列、哈希
+Q6：堆中，左式堆、斜堆及二项式堆的一般应用场景？
+Q7：那道算法题 leetcode 239
+Q8：老师最近太懒了，也不chekck代码了，也不指导了！！！！！！~~~
