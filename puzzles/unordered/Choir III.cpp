@@ -5,7 +5,7 @@ using namespace std;
 
 //time compelxity: O(m*n^2)
 //space complexity: O(m*n)
-//wrong answer
+//Wrong answer
 int choirChoose(vector<vector<int> > & choirVal, vector<vector<int> > & sexVal, int n, int m, int b, int g){
 	vector<vector<int> > sumVal(n, vector<int>(m));     //sumVal(i,j) means the sum of choir value in rectangle [0-i][0-j]
 	vector<vector<int> > sumBoy(n, vector<int>(m));     //sumBoy(i,j) means the sum  of boy in rectangle [0-i][0-j]
@@ -52,15 +52,15 @@ int choirChoose(vector<vector<int> > & choirVal, vector<vector<int> > & sexVal, 
 				int leftGirl, upGirl, leftUpGirl;
 				int leftColNotAvail, upColNotAvail, leftUpColNotAvail;
 
-				upVal = i > 0 ? sumVal[i-1][j] : 0;
-				upBoy = i > 0 ? sumBoy[i-1][j] : 0;
-				upGirl = i > 0 ? sumGirl[i-1][j] : 0;
-				upColNotAvail = i > 0 ? notAvail[i-1][j] : 0;
+				upVal = i > 0 ? sumVal[i-1][jj] : 0;
+				upBoy = i > 0 ? sumBoy[i-1][jj] : 0;
+				upGirl = i > 0 ? sumGirl[i-1][jj] : 0;
+				upColNotAvail = i > 0 ? notAvail[i-1][jj] : 0;
 
-				leftVal = j > 0 ? sumVal[i][j-1] : 0;
-				leftBoy = j > 0 ? sumBoy[i][j-1] : 0;
-				leftGirl = j > 0 ? sumGirl[i][j-1] : 0;
-				leftColNotAvail = jj > 0 ? notAvail[i][jj-1] : 0;
+				leftVal = j > 0 ? sumVal[ii][j-1] : 0;
+				leftBoy = j > 0 ? sumBoy[ii][j-1] : 0;
+				leftGirl = j > 0 ? sumGirl[ii][j-1] : 0;
+				leftColNotAvail = jj > 0 ? notAvail[ii][jj-1] : 0;
 
 				leftUpVal = i > 0 && j > 0 ? sumVal[i-1][j-1] : 0;
 				leftUpBoy = i > 0 && j > 0 ? sumBoy[i-1][j-1] : 0;
