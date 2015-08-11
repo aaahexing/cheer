@@ -5,7 +5,7 @@ using namespace std;
 
 //time compelxity: O(m*n^2)
 //space complexity: O(m*n)
-//Wrong answer
+//5A
 int choirChoose(vector<vector<int> > & choirVal, vector<vector<int> > & sexVal, int n, int m, int b, int g){
 	vector<vector<int> > sumVal(n, vector<int>(m));     //sumVal(i,j) means the sum of choir value in rectangle [0-i][0-j]
 	vector<vector<int> > sumBoy(n, vector<int>(m));     //sumBoy(i,j) means the sum  of boy in rectangle [0-i][0-j]
