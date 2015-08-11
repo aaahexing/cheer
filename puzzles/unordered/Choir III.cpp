@@ -3,9 +3,9 @@
 #include <algorithm>
 using namespace std;
 
-//time compelxity: O(m*n^2)
+//time compelxity: O(m^2*n^2)
 //space complexity: O(m*n)
-//Wrong answer
+//Time limit exceeded
 int choirChoose(vector<vector<int> > & choirVal, vector<vector<int> > & sexVal, int n, int m, int b, int g){
 	vector<vector<int> > sumVal(n, vector<int>(m));     //sumVal(i,j) means the sum of choir value in rectangle [0-i][0-j]
 	vector<vector<int> > sumBoy(n, vector<int>(m));     //sumBoy(i,j) means the sum  of boy in rectangle [0-i][0-j]
@@ -46,8 +46,7 @@ int choirChoose(vector<vector<int> > & choirVal, vector<vector<int> > & sexVal, 
 
 	for(int i = 0; i < n; i++){
 		for(int ii = i; ii < n; ii++){
-			int j = 0;
-			for(int jj = j; jj < m; jj++){
+			for(int j = 0, jj = j; jj < m; jj++){
 				int leftVal, upVal, leftUpVal;
 				int leftBoy, upBoy, leftUpBoy;
 				int leftGirl, upGirl, leftUpGirl;
@@ -75,7 +74,8 @@ int choirChoose(vector<vector<int> > & choirVal, vector<vector<int> > & sexVal, 
 
 				if(colNotAvail > 0){
 					j = jj + 1;
-					break;
+					jj = j;
+					continue;
 				}
 
 				if(tempBoy < b || tempGirl < g){
