@@ -3,7 +3,7 @@
 #include <algorithm>
 using namespace std;
 
-//time compelxity: O(m^2*n^2)
+//time compelxity: O(m*n^2)
 //space complexity: O(m*n)
 //Time limit exceeded
 int choirChoose(vector<vector<int> > & choirVal, vector<vector<int> > & sexVal, int n, int m, int b, int g){
