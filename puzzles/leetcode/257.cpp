@@ -1,5 +1,5 @@
 /********
-https://leetcode.com/problems/binary-tree-paths/
+Binary Tree Paths: https://leetcode.com/problems/binary-tree-paths/
 Given a binary tree, return all root-to-leaf paths.
 **/
 
