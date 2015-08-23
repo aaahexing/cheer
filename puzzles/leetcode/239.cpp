@@ -38,5 +38,37 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 	return res;
 }
 
-//how to solve it in linear time???
+//time complexity: O(n): every element can inqueue and dequeue one time at most
+//space complexity: O(k)
+vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+	deque<int> q;
+        vector<int> ret;
+        q.clear();
+        ret.clear();
+        
+        if (nums.size() <= 0) {
+            return ret;
+        }
+        
+        for (int i = 0; i < k; i++) {
+            while (!q.empty() && nums[q.back()] <= nums[i]) {
+                q.pop_back();
+            }
+            q.push_back(i);
+        }
+        ret.push_back(nums[q.front()]);
+        
+        for (int i = k; i < nums.size(); i++) {
+            if (q.front() + k == i) {
+                q.pop_front();
+            }
+            while (!q.empty() && nums[q.back()] <= nums[i]) {
+                q.pop_back();
+            }
+            q.push_back(i);
 
+            ret.push_back(nums[q.front()]);
+        }
+        
+        return ret;
+}
