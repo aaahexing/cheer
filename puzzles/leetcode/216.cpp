@@ -1,40 +1,55 @@
-/******************
-Contains Duplicate III : https://leetcode.com/problems/contains-duplicate-iii/
+/***************************
+Combination Sum III : https://leetcode.com/problems/combination-sum-iii/
 
-Given an array of integers, find out whether there are two distinct indices i and j in the array such that the difference between nums[i] and nums[j] is at most t and the difference between i and j is at most k. 
+
+Find all possible combinations of k numbers that add up to a number n, given that only numbers from 1 to 9 can be used and each combination should be a unique set of numbers.
+Ensure that numbers within the set are sorted in ascending order.
+Example 1:
+Input: k = 3, n = 7
+Output: 
+[[1,2,4]]
+Example 2:
+Input: k = 3, n = 9
+Output: 
+[[1,2,6], [1,3,5], [2,3,4]]
 **/
 
-//time compleixty: O(nlogk)
-//space compleixity: O(k)
-//NA: usage of set,,,be careful of overflow
-bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
-        if (k <= 0) {
-            return false;
-        }
-        
-        set<long long> s;
-        for (int i = 1; i <= k && i < nums.size(); i++) {
-            s.insert(nums[i]);
-        }
-        
-        for (int i = 0; i < int(nums.size()) - 1; i++) {
-			set<long long>::iterator itr = s.upper_bound(nums[i]);
-			if (itr != s.end() && abs(*itr - (long long)nums[i]) <= t) {
-				return true;
+//@desc: backtracking
+//@time complexity: can't be calculated exactly
+//@space complexity: O(1)
+//3A: condition in line 40 being not considered suffiently caused the first failure. pop operation ommited in line 53 caused the second failure.... 
+vector<vector<int>> combinationSum3(int k, int n) {
+	vector<vector<int>> res;
+	vector<int> tmp;
+	if (k <= 0 || n <= 0) {
+		return res;
+	}
+	combinationSum3(res, tmp, k, n);
+
+	return res;
+}
+
+void combinationSum3(vector<vector<int>> &res, vector<int> tmp, int k, int n) {
+	if (k == 1) {
+		if (tmp.empty()) {
+			if (n <= 9) {
+				tmp.push_back(n);
+				res.push_back(tmp);
 			}
-			
-			if (itr != s.begin()) {
-    			itr--;
-	    		if (abs(*itr - nums[i]) <= t) {
-		    		return true;
-		    	}
+		} else {
+			if (n > tmp[tmp.size()-1] && n <= 9) {
+				tmp.push_back(n);
+				res.push_back(tmp);
 			}
-            
-            s.erase(nums[i+1]);
-            if (i+1+k < nums.size()) {
-                s.insert(nums[i+1+k]);
-            }
-        }
-        
-        return false;
-    }
+		}
+
+		return;
+	}
+
+	int i = tmp.empty() ? 1 : tmp[tmp.size()-1] + 1;
+	for (; i <= n/2 && i <= 8; i++) {
+		tmp.push_back(i);
+		combinationSum3(res, tmp, k-1, n-i);
+		tmp.pop_back();
+	}
+}
