@@ -59,3 +59,59 @@ bool judge(vector<vector<int>> & matrix) {
 
 	return true;
 }
+
+//second solution: toplogical sort
+//time complexity: O(m+n) m represents the total num of edges and n represents the total num of vertex
+//space complexity: O(n) 
+class Vertex {
+public:
+	int indegree;
+	int topNum;
+	list<Vertex *> adjacent;
+	Vertex(int indeg = 0, int top = -1) {
+		indegree = indeg;
+		topNum = top;
+		adjacent.clear();
+	}
+};
+
+bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+	vector<Vertex> vertexs(numCourses);
+	createGraph(vertexs, prerequisites);
+	return isAcycle(vertexs);
+}
+
+void createGraph(vector<Vertex> & vertexs, vector<pair<int, int>> & prerequisites) {
+	for (int i = 0; i < prerequisites.size(); i++) {
+		vertexs[prerequisites[i].first].indegree++;
+		vertexs[prerequisites[i].second].adjacent.push_back(&vertexs[prerequisites[i].first]);
+	}
+}
+
+bool isAcycle(vector<Vertex> & vertexs) {
+	queue<Vertex *> q;
+	for (int i = 0; i < vertexs.size(); i++) {
+		if (vertexs[i].indegree == 0) {
+			q.push(&vertexs[i]);
+		}
+	}
+
+	int count = 0;
+	while (!q.empty()) {
+		Vertex * v = q.front();
+		q.pop();
+		v->topNum = ++count;
+		for (list<Vertex *>::iterator itr = v->adjacent.begin(); itr != v->adjacent.end(); itr++) {
+			(*itr)->indegree--;
+			if((*itr)->indegree == 0 && (*itr)->topNum == -1) {
+				q.push(*itr);
+			}
+		}
+	}
+
+	if (count != vertexs.size()) {
+		return false;
+	} 
+
+	return true;
+}
