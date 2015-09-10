@@ -16,6 +16,87 @@ search(".ad") -> true
 search("b..") -> true
 **/
 
+//----------------------------first solution--------------------------------------------
+class trieNode {
+public:
+    static const int num = 26;
+    trieNode * child[num];
+    bool isFullWord;
+    trieNode() {
+        for (int i = 0; i < num; i++) {
+            child[i] = NULL;
+        }
+        isFullWord = false;
+    }
+};
+
+//time complexity: O(n) for addWord and search function
+//time limit exceed...
+class WordDictionary {
+private: 
+    trieNode * root;
+public:
+    WordDictionary() {
+        root = new trieNode();
+    }
+    // Adds a word into the data structure.
+    void addWord(string word) {
+        trieNode * curNode = root;
+        trieNode * childNode;
+        for (int i = 0; i < word.size(); i++) {
+            childNode = curNode->child[word[i] - 'a'];
+            if (!childNode) {
+                childNode = new trieNode();
+                curNode->child[word[i] - 'a'] = childNode;
+            }
+            curNode = childNode;
+        }
+        curNode->isFullWord = true;
+    }
+
+    // Returns if the word is in the data structure. A word could
+    // contain the dot character '.' to represent any one letter.
+    bool search(string word) {
+        if (word.size() <= 0) {
+            return false;
+        }
+        return search(word, root);
+    }
+    
+    bool search(string word, trieNode * root) {
+        trieNode * curNode = root;
+        for (int i = 0; i < word.size(); i++) {
+            bool ret = false;
+            trieNode * childNode;
+            if (word[i] == '.') {
+                for (int j = 0; j < trieNode::num; j++) {
+                    childNode = curNode->child[j];
+                    if (childNode) {
+                        if (i == word.size() -1 && childNode->isFullWord) {
+                            return true;
+                        }
+                        
+                        ret = ret || search(word.substr(i+1), curNode);
+                        if (ret) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            } else {
+                childNode = root->child[word[i] - 'a'];
+                if (!childNode) {
+                    return false;
+                } else {
+                    curNode = childNode;
+                }
+            }
+        }
+        return curNode->isFullWord;
+    }
+};
+
+//----------------------------second solution-------------------------------------------
 class trieNode {
 public:
     trieNode * child;
@@ -114,3 +195,5 @@ public:
         return curNode->isFullWord;
     }
 };
+
+//-------------------------------third solution---------------------------------------
