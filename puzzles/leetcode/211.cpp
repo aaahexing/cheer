@@ -31,7 +31,7 @@ public:
 };
 
 //time complexity: O(n) for addWord and search function
-//time limit exceed...
+//2A
 class WordDictionary {
 private: 
     trieNode * root;
@@ -76,7 +76,7 @@ public:
                             return true;
                         }
                         
-                        ret = ret || search(word.substr(i+1), curNode);
+                        ret = ret || search(word.substr(i+1), childNode);
                         if (ret) {
                             return true;
                         }
@@ -84,7 +84,7 @@ public:
                 }
                 return false;
             } else {
-                childNode = root->child[word[i] - 'a'];
+                childNode = curNode->child[word[i] - 'a'];
                 if (!childNode) {
                     return false;
                 } else {
@@ -110,7 +110,7 @@ public:
 };
 
 //time complexity: O(n) for addWord function and search function
-//time limit exceeded ??? why????
+//2A
 class WordDictionary {
 private: 
     trieNode * root;
@@ -132,8 +132,7 @@ public:
             }
             while (childNode->nextSibling) {
                 if (childNode->val == word[i]) {
-                    curNode = childNode;
-                    continue;
+                    break;
                 }
                 childNode = childNode->nextSibling;
             }
@@ -194,6 +193,4 @@ public:
         }
         return curNode->isFullWord;
     }
-};
-
-//-------------------------------third solution---------------------------------------
+};ution---------------------------------------
