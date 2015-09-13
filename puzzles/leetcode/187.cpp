@@ -12,7 +12,7 @@ Return:
 //---------------------------first solution-----------------------------------
 //use hash idea
 //time complexity: O(n)
-//space compleixty: O(n)
+//space compleixty: O(n * 10 * sizeof(char))
 //memory limit exceeded
 class Solution {
 public:
@@ -140,4 +140,66 @@ public:
 	}
 private:
 	trieNode * root;
+};
+
+//-----------------------------------------third solution----------------------------
+//time complexity: O(n)
+//space complexity: O(n * sizeof(int));
+class Solution {
+private:
+    static const int length = 10;
+public:
+    vector<string> findRepeatedDnaSequences(string s) {
+        unordered_map<int, int> m;
+        vector<string> ret;
+        for (int i = 0; i <= (int)s.size() - length; i++) {
+            string strSub = s.substr(i, length);
+            int num = strToNum(strSub);
+            if(m.find(num) != m.end()) {
+                m[num]++;
+            } else {
+                m[num] = 1;
+            }
+        }
+        
+        for (unordered_map<int, int>::iterator itr = m.begin(); itr != m.end(); itr++) {
+            if (itr->second > 1) {
+                ret.push_back(numToStr(itr->first));
+            }
+        }
+        return ret;
+    }
+    
+    int strToNum(string s) {
+        int ret = 0;
+        for (int i = 0; i < Solution::length; i++) {
+            int c;
+            switch(s[i]) {
+                case 'A': 
+                    c = 0;
+                    break;
+                case 'C':
+                    c = 1;
+                    break;
+                case 'G':
+                    c = 2;
+                    break;
+                case 'T':
+                    c = 3;
+            }
+            ret = (ret << 2) | c;
+        }
+        return ret;
+    }
+    
+    string numToStr(int num) {
+        string ret;
+        char dic[] = {'A', 'C', 'G', 'T'};
+        for (int i = 0; i < Solution::length * 2; i += 2) {
+            int a = num & 3;
+            num >>= 2;
+            ret = dic[a] + ret;
+        }
+        return ret;
+    }
 };

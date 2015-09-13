@@ -55,3 +55,27 @@ void swap(int & a, int & b) {
 	a = b;
 	b = tmp;
 }
+
+//------------------------------------forth solution-------------------------
+//@desc: first reverse the last k elements, then reverse the first n - k elements, finally reverse the total array 
+//time complexity: O(n)
+//space complexity: O(1)
+//2A: be specially careful of the % operation
+void rotate(vector<int>& nums, int k) {
+	int len = nums.size();
+	reverse(nums, 0, len - (k % len) -1);
+	reverse(nums, len - (k % len), len - 1);
+	reverse(nums, 0, nums.size()-1);
+}
+
+void swap(int & a, int & b) {
+	int tmp = a;
+	a = b;
+	b = tmp;
+}
+
+void reverse(vector<int> & nums, int start, int end) {
+	while(start <= end) {
+		swap(nums[start++], nums[end--]);
+	}
+}
