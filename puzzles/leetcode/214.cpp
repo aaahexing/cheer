@@ -6,7 +6,7 @@ For example:
 Given "aacecaaa", return "aaacecaaa".
 Given "abcd", return "dcbabcd".
 **/
-
+//---------------------------------------solution 1-----------------------------------------------
 //time complexity: O(n^2) in worst case
 //space complexity: O(1) 
 //time limit exceeded
@@ -37,3 +37,64 @@ bool isPalindrome(string s) {
 
 	return true;
 }
+
+//--------------------------------------solution 2----------------------------------------
+//TLE 
+class trieNode {
+public:
+    char val;
+    trieNode * child;
+    trieNode() {
+        child = NULL;
+    }
+};
+
+class Solution {
+public:
+    string shortestPalindrome(string s) {
+        string rev = s;
+        buildTree(s);
+        reverse(rev.begin(), rev.end());
+        int start;
+        for (start = 0; start < rev.size(); start++) {
+            if (foundInTree(s, start)) {
+                break;
+            }
+        }
+        string addStr = rev.substr(0, start + 1);
+        s = addStr + s;
+        return s;
+    }
+    
+    //@time complexity: O(n)
+    //@space complexity: O(1)
+    void buildTree(string s) {
+        if (s.size() <= 0) {
+            return;
+        }
+        root = new trieNode();
+        root->val = s[0];
+        trieNode * cur = root;
+        for (int i = 1; i < s.size(); i++) {
+            cur->child = new trieNode();
+            cur->child->val = s[i];
+            cur = cur->child;
+        }
+    }
+    
+    bool foundInTree(string s, int start) {
+        trieNode * cur = root;
+        for (; start < s.size(); start++) {
+            if(cur->val != s[start]) {
+                return false;
+            }
+        }
+        return true;
+    }
+   
+    Solution() {
+        root = NULL;
+    }
+private:
+    trieNode * root;
+};
