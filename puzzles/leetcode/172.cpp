@@ -5,27 +5,25 @@ Given an integer n, return the number of trailing zeroes in n!.
 Note: Your solution should be in logarithmic time complexity.
 **/
 
-//wrong
+//@desc: think clearly, then write
+//@desc: this puzzle can be transformed into getting the total number of 5s in the factorial of n
+//@time complexity: O(log5 n)
+//@space complexity: O(1)
 int trailingZeroes(int n) {
-	if (n <= 0) {
-		return 0;
-	}
-	int digit = getDigit(n);
-	int minVal = getMinValInDigitN(digit);
-
-	int ret = (n / minVal) * (digit - 1 + trailingZeroes(minVal - 1)) + trailingZeroes(n - n / minVal * minVal) + ((n / minVal) >= 5 ? 1 : 0);
-	return ret;
+    int count = 0;
+    int minPowOfFive = getMinPowerOfFive(n);
+    for (int devisor = 5; devisor <= minPowOfFive; devisor *= 5) {
+        count += n / devisor;
+    }
+        
+    return count;
 }
-
-int getDigit(int n) {
-	if (n < 10) {
-		return 1;
-	}
-	return getDigit(n/10) + 1;
+    
+int getMinPowerOfFive(int n) {
+    long long ret = 1;
+    while (ret <= n) {
+        ret *= 5;
+    }
+        
+    return ret/5;
 }
-
-int getMinValInDigitN(int digit) {
-	if (digit == 1) {
-		return 1;
-	} 
-	return getMinValInDigitN(digit - 1) * 10;
