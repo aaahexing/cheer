@@ -142,3 +142,107 @@ public:
         return tmpRes[0];
     }
 };
+
+//--------------------------------------------------------------solution 4-------------------------------------------------
+//@desc: dynamic programming + backtracking.....solution 1 + 139.cpp.....I am going to be crying....
+class Solution {
+public:
+    vector<string> wordBreak(string s, unordered_set<string>& wordDict) {
+        vector<bool> tmpRes(s.size(), false);
+    	vector<string> strRes;
+    	if (s.size() <= 0) {
+		    return strRes;
+	    }
+    	for (int i = s.size() -1; i >= 0; i--) {
+    		string sub = s.substr(i);
+    		if (wordDict.find(sub) != wordDict.end()) {
+    			tmpRes[i] = true;
+    			continue;
+    		}
+    		for (int j = i + 1; j < s.size(); j++) {
+    			sub = s.substr(i, j - i);
+    			if (wordDict.find(sub) != wordDict.end() && tmpRes[j]) {
+    				tmpRes[i] = true;
+    				break;
+    			}
+    		}
+    	}
+
+    	if (tmpRes[0] == false) {
+    	    return strRes;
+    	}
+    	
+        wordBreak(s, wordDict, strRes, "");
+        return strRes;
+    }
+    
+    void wordBreak(string s, unordered_set<string> & wordDict, vector<string> & ret, string str) {
+        if (s.size() <= 0) {
+            if (str.size() > 0) {
+                ret.push_back(str);
+            }
+            return;
+        }
+        
+        for (int i = 0; i < s.size(); i++) {
+            if (wordDict.find(s.substr(0, i + 1)) != wordDict.end()) {
+                string tmp;
+                if (str.size() == 0) {
+                    tmp = str + s.substr(0, i + 1);
+                } else {
+                    tmp = str + " " + s.substr(0, i + 1);
+                }
+                wordBreak(s.substr(i + 1), wordDict, ret, tmp);
+            }
+        }
+    }
+};
+
+//-----------------------------------------solution 5------------------------------------------------------
+//@desc: dynamic programming.....solution 3 + 139.cpp....................still crying............
+class Solution {
+public:
+    vector<string> wordBreak(string s, unordered_set<string>& wordDict) {
+        vector<bool> tmpRes(s.size(), false);
+    	vector<vector<string> > strRes(s.size());
+    	if (s.size() <= 0) {
+		    return strRes[0];
+	    }
+    	for (int i = s.size() -1; i >= 0; i--) {
+    		string sub = s.substr(i);
+    		if (wordDict.find(sub) != wordDict.end()) {
+    			tmpRes[i] = true;
+    			continue;
+    		}
+    		for (int j = i + 1; j < s.size(); j++) {
+    			sub = s.substr(i, j - i);
+    			if (wordDict.find(sub) != wordDict.end() && tmpRes[j]) {
+    				tmpRes[i] = true;
+    				break;
+    			}
+    		}
+    	}
+
+    	if (tmpRes[0] == false) {
+    	    return strRes[0];
+    	}
+    	
+        for (int i = s.size() - 1; i >= 0; i--) {
+            for (int j = i + 1; j < s.size(); j++) {
+                string sub = s.substr(i, j - i);
+                if (wordDict.find(sub) != wordDict.end()) {
+                    for (int m = 0; m < strRes[j].size(); m++) {
+                        strRes[i].push_back(sub + " " + strRes[j][m]);
+                    }
+                }
+            }
+            
+            string sub = s.substr(i);
+            if (wordDict.find(sub) != wordDict.end()) {
+                strRes[i].push_back(sub);
+            }
+        }
+        
+        return strRes[0];
+    }
+};
