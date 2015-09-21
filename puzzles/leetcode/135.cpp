@@ -8,6 +8,9 @@ You are giving candies to these children subjected to the following requirements
 What is the minimum candies you must give? 
 **/
 
+//@time complexity: O(nlogn)
+//@space complexity: O(n)
+//@1A
 int candy(vector<int>& ratings) {
 	vector<int> candy(ratings.size(), 0);
 	multimap<int, int> m;
