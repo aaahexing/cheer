@@ -62,3 +62,64 @@ public:
 };
 
 //------------------------------------solution 2--------------------------------------
+//@time complexity: can't be count exactly
+//@space complexity: O(1)
+class Solution {
+public:
+    void recoverTree(TreeNode* root) {
+        if (NULL == root) {
+            return;
+        }
+        
+        if (root->left != NULL && root->right == NULL) {
+            pair<TreeNode *, TreeNode *> L = getMinMax(root->left);
+            if (L.second->val > root->val) {
+                swap(L.second->val, root->val);
+            } else {
+                recoverTree(root->left);
+            }
+        } else if (root->left == NULL && root->right != NULL) {
+            pair<TreeNode *, TreeNode *> R = getMinMax(root->right);
+            if (R.first->val < root->val) {
+                swap(R.first->val, root->val);
+            } else {
+                recoverTree(root->right);
+            }
+        } else if (root->left != NULL && root->right != NULL) {
+            pair<TreeNode *, TreeNode *> L = getMinMax(root->left);
+            pair<TreeNode *, TreeNode *> R = getMinMax(root->right);
+            if (L.second->val > root->val && R.first->val > root->val) {
+                swap(L.second->val, root->val);
+            } else if (L.second->val > root->val && R.first->val < root->val) {
+                swap(L.second->val, R.first->val);
+            } else if (L.second->val < root->val && R.first->val < root->val) {
+                swap(R.first->val, root->val);
+            } else {
+                recoverTree(root->left);
+                recoverTree(root->right);
+            }
+        }
+    }
+    
+    pair<TreeNode *, TreeNode *> getMinMax(TreeNode * root) {
+        pair<TreeNode *, TreeNode *> ret = make_pair(root, root);
+        if (root->left) {
+            pair<TreeNode *, TreeNode *> L = getMinMax(root->left);
+            if (L.first->val < ret.first->val) {
+                ret.first = L.first;
+            }
+            if (L.second->val > ret.second->val) {
+                ret.second = L.second;
+            }
+        }
+        if (root->right) {
+            pair<TreeNode *, TreeNode *> R = getMinMax(root->right);
+            if (R.first->val < ret.first->val) {
+                ret.first = R.first;
+            }
+            if (R.second->val > ret.second->val) {
+                ret.second = R.second;
+            }
+        }
+    }
+};
