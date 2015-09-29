@@ -53,7 +53,7 @@ public:
             if (m.count(neighbor->label)) {
                 (ret->neighbors).push_back(m[neighbor->label]);
             } else {
-                (ret->neighbors).push_back(cloneGraph(neighbor));
+                (ret->neighbors).push_back(cloneGraph(neighbor, m));
             }
         }
         
