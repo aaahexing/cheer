@@ -39,6 +39,8 @@ We say that "rgtae" is a scrambled string of "great".
 Given two strings s1 and s2 of the same length, determine if s2 is a scrambled string of s1.
 **/
 
+//--------------------------solution 1----------------------------
+//@violant solution
 class Solution {
 public:
     bool isScramble(string s1, string s2) {
@@ -98,5 +100,44 @@ public:
         }
         
         return true;
+    }
+};
+
+//------------------------solution 2-------------------------
+//@dynamic programming
+class Solution {
+public:
+    bool isScramble(string s1, string s2) {
+        if (s1 == s2) {
+            return true;
+        }
+        
+        if (s1.size() != s2.size()) {
+            return false;
+        }
+        
+        vector<vector<vector<bool>>> res(s1.size() + 1, vector<vector<bool>>(s1.size(), vector<bool>(s1.size(), false))); //res[len][i][j] i represents the start pos of s1 and j represents the start pos of s2
+        
+        for (int len = 1; len <= s1.size(); len++) {
+            for (int i = 0; i + len <= s1.size(); i++) {
+                for (int j = 0; j + len <= s2.size(); j++) {
+                    string subS1 = s1.substr(i, len);
+                    string subS2 = s2.substr(j, len);
+                    if (subS1 == subS2) {
+                        res[len][i][j] = true;
+                    } else {
+                        for (int sublen = 1; sublen < len; sublen++) {
+                            res[len][i][j] = res[len][i][j] || (res[sublen][i][j] && res[len - sublen][i + sublen][j + sublen]);
+                            res[len][i][j] = res[len][i][j] || (res[sublen][i][j + (len - sublen)] && res[len - sublen][i + sublen][j]);
+                            if (res[len][i][j]) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return res[s1.size()][0][0];
     }
 };
