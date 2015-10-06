@@ -182,3 +182,85 @@ public:
         return ret;
     }
 };
+
+//--------------------------forth solution------------------------------
+//@TLE
+//@DP
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        int len1 = s1.size() + 1;
+        int len2 = s2.size() + 1;
+        
+        //dpMem[i+1][j+1] s1[0…i]^s2[0…j] ->vector<string> 
+        vector<vector<vector<string>>> dpMem(len1, vector<vector<string>>(len2));
+        
+        dpMem[0][0].push_back("");
+        for (int i = 0; i < s1.size(); i++) {
+            dpMem[i+1][0].push_back(s1.substr(0, i+1));
+        }
+        for (int j = 0; j < s2.size(); j++) {
+            dpMem[0][j+1].push_back(s2.substr(0, j+1));
+        }
+        
+        for (int i = 0; i < s1.size(); i++) {
+            for (int j = 0; j < s2.size(); j++) {
+                for (int l1 = 0; l1 <= i + 1; l1++) {
+                    for (int r1 = 0; r1 <= j + 1; r1++) {
+                        int l2 = (i + 1) - l1;
+                        int r2 = (j + 1) - r1;
+                        if ((l1 == 0 && r1 == 0) || (l2 == 0 && r2 == 0)) {
+                            continue;
+                        }
+                        for (int m = 0; m < dpMem[l1][r1].size(); m++) {
+                            for (int n = 0; n < dpMem[l2][r2].size(); n++) {
+                                dpMem[i+1][j+1].push_back(dpMem[l1][r1][m] + dpMem[l2][r2][n]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        for (int i = 0; i < dpMem[s1.size()][s2.size()].size(); i++) {
+            if (s3 == dpMem[s1.size()][s2.size()][i]) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+};
+
+//-------------------------------solution fifth-------------------------------------
+//@time complexity: O(m*n)
+//@space complexity: O(m*n)
+//@DP
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        int len1 = s1.size() + 1;
+        int len2 = s2.size() + 1;
+        if (s1.size() + s2.size() != s3.size()) {
+            return false;
+        }
+        
+        vector<vector<bool>> dpMem(len1, vector<bool>(len2, false));
+        dpMem[0][0] = true;
+        for (int i = 0; i < s1.size(); i++) {
+            dpMem[i+1][0] = (s1.substr(0, i+1) == s3.substr(0, i+1) ? true : false);
+        }
+        for (int j = 0; j < s2.size(); j++) {
+            dpMem[0][j+1] = (s2.substr(0, j+1) == s3.substr(0, j+1) ? true : false);
+            cout<<s2.substr(0, j+1)<<endl;
+        }
+
+        for (int i = 0; i < s1.size(); i++) {
+            for (int j = 0; j < s2.size(); j++) {
+                dpMem[i+1][j+1] = (dpMem[i][j+1] && (s1[i] == s3[i+j+1])) || (dpMem[i+1][j] && (s2[j] == s3[i+j+1]));
+            }
+        }
+        
+        return dpMem[s1.size()][s2.size()];
+    }
+};
