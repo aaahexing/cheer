@@ -90,3 +90,61 @@ public:
         return true;
     }
 };
+
+//------------------------------------------solution 2-------------------------------------------
+//@TLE
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        unordered_map<char, int> tMap;
+        unordered_map<char, int> subSMap;
+        string substr = "";
+        
+        if (t.size() == 0) {
+            return substr;
+        }
+        for (int i = 0; i < t.size(); i++) {
+            tMap[t[i]]++;
+        }
+        
+        int startIdx = 0, endIdx = 0;
+        while (startIdx < s.size() && endIdx < s.size()) {
+            if (tMap.find(s[startIdx]) != tMap.end()) {
+                if (startIdx > endIdx || substr == "") {
+                    subSMap[s[startIdx]]++;
+                    endIdx = startIdx;
+                }
+                while (endIdx < s.size()) {
+                    if (checkAvail(subSMap, tMap)) {
+                        string tmpStr = s.substr(startIdx, endIdx - startIdx + 1);
+                        if (substr == "" || substr.size() > tmpStr.size()) {
+                            substr = tmpStr;
+                        }
+                        subSMap[s[startIdx]]--;
+                        startIdx++;
+                        break;
+                    } else {
+                        endIdx++;
+                        if (endIdx < s.size() && tMap.find(s[endIdx]) != tMap.end()) {
+                            subSMap[s[endIdx]]++;
+                        }
+                        
+                    }
+                }
+            } else {
+                startIdx++;
+            }
+        }
+        
+        return substr;
+    }
+    
+    bool checkAvail(unordered_map<char, int> & subSMap, unordered_map<char, int> & tMap) {
+        for (unordered_map<char, int>::iterator itr = tMap.begin(); itr != tMap.end(); itr++) {
+            if (subSMap.find(itr->first) == subSMap.end() || itr->second > subSMap[itr->first]) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
