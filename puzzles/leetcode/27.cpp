@@ -15,7 +15,7 @@ int removeElement(vector<int>& nums, int val) {
 			elePos++;
 		} else {
 			nums[putPos] = nums[elePos];
-			putPos++;
+			putPos++; 
 			elePos++;
 		}
 	}
